@@ -43,7 +43,7 @@ const addListItem = function(e) {
   /** Clear input form */
   input.value = '';
   /** Disable reorder feature if a list item is added to avoid break in code. */
-  reorderFeat.innerText == 'Done Reordering Items' ? toggleReorderFeat() : false;
+  reorderFeat.innerText == 'Done Reordering Items' ? toggleReorder() : false;
 };
 
 /** Add event listener to <a.add-item> element to track for mouse clicks and run addListItem function. */
@@ -59,9 +59,9 @@ reorderFeat.style.backgroundColor = 'darkorange';
 reorderFeat.style.marginLeft = '6px';
 addEl.after(reorderFeat);
 
-reorderFeat.addEventListener('click', toggleReorderFeat);
+reorderFeat.addEventListener('click', toggleReorder);
 
-function toggleReorderFeat() {
+function toggleReorder() {
   /** Check if feature is enabled or disabled and run code based on if-else conditions. If enabled then create up and down arrows for each <li> element. If disabled then delete all arrows from <li> elements. */
   const reorderStatus = reorderFeat.innerText;
 
@@ -91,14 +91,14 @@ function createArrows(item) {
   const moveUp = document.createElement(`a`);
   moveUp.classList.add('moveUp');
   moveUp.innerText = "⇧";
-  moveUp.style.backgroundColor = 'Green';
+  moveUp.style.backgroundColor = 'purple';
   moveUp.style.marginLeft = '6px';
   item.appendChild(moveUp);
 
   const moveDown = document.createElement(`a`);
   moveDown.classList.add('moveDown');
   moveDown.innerText = "⇩";
-  moveDown.style.backgroundColor = 'red';
+  moveDown.style.backgroundColor = 'purple';
   moveDown.style.marginLeft = '6px';
   item.appendChild(moveDown);
 };

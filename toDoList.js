@@ -4,11 +4,7 @@
 const ulEl = document.querySelector('ul');
 ulEl.addEventListener('click', toDoListAction);
 
-function toDoListAction (e) {
-  console.log(e.target);
-  console.log(e.target.parentNode);
-  console.log(this);
-  
+function toDoListAction(e) {
   /** Check if mouse clicked on <span> element instead of <li> element. If so, target the parentNode to update className to 'done' since <span> is a child of <li>. */
   e.target.tagName == "SPAN" ? e.target.parentNode.classList.toggle('done') : 
     e.target.tagName == "LI" ? e.target.classList.toggle('done') : false;
@@ -41,7 +37,7 @@ const addListItem = function(e) {
 
   /** Created a new <li> element and used the innerHTML property to set the HTML default elements and text. The 'text' input is passed into the innerHTML using template literals. The querySelector is then used to find the <ul> with 'class = today-list' and append the new <li> as a child element.  */
   const newListItemEl = document.createElement('li');
-  newListItemEl.innerHTML= `\n<span>${text}</span>\n<a class="delete">Delete</a>\n`;
+  newListItemEl.innerHTML = `\n<span>${text}</span>\n<a class="delete">Delete</a>\n`;
 
   /** Clear input form */
   document.querySelector('.today-list').appendChild(newListItemEl);
@@ -51,3 +47,57 @@ const addListItem = function(e) {
 /** Add event listener to <a.add-item> element to track for mouse clicks and run addListItem function. */
 const addEl = document.querySelector('.add-item');
 addEl.addEventListener('click', addListItem);
+
+
+/** {EXTRA CREDIT} Reorder Feature */
+const reorderFeat = document.createElement(`a`);
+// reorderFeat.classList.add('reorder-items');
+reorderFeat.innerText = 'Reorder Items';
+reorderFeat.style.backgroundColor = 'darkorange';
+reorderFeat.style.marginLeft = '6px';
+addEl.after(reorderFeat);
+
+reorderFeat.addEventListener('click', toggleReorderFeat);
+
+function toggleReorderFeat() {
+  const allListItems = Array.from(document.querySelectorAll('li'));
+  
+  allListItems.forEach(item => {
+    if(!item.classList.contains('reorderEnabled')) {
+      createArrows();
+      reorderFeat.innerText = 'Done Reordering Items';
+    } else {
+      
+      deleteArrows();
+      
+      reorderFeat.innerText = 'Reorder Items';
+    }
+    
+    item.classList.toggle('reorderEnabled');
+    
+  });
+  
+};
+
+function createArrows() {
+  
+  const moveUp = document.createElement(`a`);
+  moveUp.classList.add('reorderOption');
+  moveUp.innerText = "⇧";
+  moveUp.style.backgroundColor = 'Green';
+  moveUp.style.marginLeft = '6px';
+  item.appendChild(moveUp);
+
+  const moveDown = document.createElement(`a`);
+  moveDown.classList.add('reorderOption');
+  moveDown.innerText = "⇩";
+  moveDown.style.backgroundColor = 'red';
+  moveDown.style.marginLeft = '6px';
+  item.appendChild(moveDown);
+ 
+};
+
+function deleteArrows() {
+  const reorderOptionEl = Array.from(document.getElementsByClassName('reorderOption'));
+  reorderOptionEl.forEach(item => item.remove());
+};

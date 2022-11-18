@@ -28,20 +28,19 @@ const addListItem = function(e) {
 
   // Finish function here
 
-  /** Create elements/child elements:
+  /** Created a new <li> element and used the innerHTML property to set the HTML default elements and text. 
    * <li>
    *  <span>...</span>
    *  <a class="delete">Delete</a>
    * </li>
-  */
-
-  /** Created a new <li> element and used the innerHTML property to set the HTML default elements and text. The 'text' input is passed into the innerHTML using template literals. The querySelector is then used to find the <ul> with 'class = today-list' and append the new <li> as a child element.  */
+   * The 'text' input is passed into the innerHTML using template literals. The querySelector is then used to find the <ul> with 'class = today-list' and append the new <li> as a child element.  */
   const newListItemEl = document.createElement('li');
   newListItemEl.innerHTML = `\n<span>${text}</span>\n<a class="delete">Delete</a>\n`;
   document.querySelector('.today-list').appendChild(newListItemEl);
 
   /** Clear input form */
   input.value = '';
+  /** Disable reorder feature if a list item is added to avoid break in code. */
   reorderFeat.innerText == 'Done Reordering Items' ? toggleReorderFeat() : false;
 
 };
@@ -52,8 +51,9 @@ addEl.addEventListener('click', addListItem);
 
 
 /** {EXTRA CREDIT} Reorder List Feature */
+
+/** Created a 'Reorder Items' clickable element to enable the feature */
 const reorderFeat = document.createElement(`a`);
-// reorderFeat.classList.add('reorder-items');
 reorderFeat.innerText = 'Reorder Items';
 reorderFeat.style.backgroundColor = 'darkorange';
 reorderFeat.style.marginLeft = '6px';
@@ -62,6 +62,7 @@ addEl.after(reorderFeat);
 reorderFeat.addEventListener('click', toggleReorderFeat);
 
 function toggleReorderFeat() {
+  /** Check if feature is enabled or disabled and run code based on if-else conditions. If enabled then create up and down arrows for each <li> element. If disabled then delete all arrows from <li> elements. */
   const reorderStatus = reorderFeat.innerText;
 
   if (reorderStatus == 'Reorder Items') {
@@ -82,15 +83,11 @@ function toggleReorderFeat() {
     allListItems.forEach(item => item.classList.remove('reorderEnabled'));
 
     reorderFeat.innerText = 'Reorder Items';
-
   }
-
-  
-  
 };
 
 function createArrows(item) {
-  
+  /** Created Up and Down elements and set a class to easily delete when deleteArrows function is called. */
   const moveUp = document.createElement(`a`);
   moveUp.classList.add('moveUpDown');
   moveUp.innerText = "⇧";

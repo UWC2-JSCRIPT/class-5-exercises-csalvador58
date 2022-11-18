@@ -9,13 +9,15 @@ function toDoListAction(e) {
   e.target.tagName == "SPAN" ? e.target.parentNode.classList.toggle('done') : 
     e.target.tagName == "LI" ? e.target.classList.toggle('done') : false;
 
-
 // If a delete link is clicked, delete the li element / remove from the DOM
 
   /** Check if mouse clicked on delete link and used remove() on parentNode */
   e.target.className == "delete" ? e.target.parentNode.remove() : false;
-};
 
+  /** Check if Up or Down arrows are clicked (if present) */
+  e.target.className == "moveUp" ? moveLiUp(e) : e.target.className == "moveDown" ? moveLiDown(e) : false;
+
+};
 
 // If an 'Add' link is clicked, adds the item as a new list item with
 // addListItem function has been started to help you get going!
@@ -42,13 +44,11 @@ const addListItem = function(e) {
   input.value = '';
   /** Disable reorder feature if a list item is added to avoid break in code. */
   reorderFeat.innerText == 'Done Reordering Items' ? toggleReorderFeat() : false;
-
 };
 
 /** Add event listener to <a.add-item> element to track for mouse clicks and run addListItem function. */
 const addEl = document.querySelector('.add-item');
 addEl.addEventListener('click', addListItem);
-
 
 /** {EXTRA CREDIT} Reorder List Feature */
 
@@ -89,22 +89,36 @@ function toggleReorderFeat() {
 function createArrows(item) {
   /** Created Up and Down elements and set a class to easily delete when deleteArrows function is called. */
   const moveUp = document.createElement(`a`);
-  moveUp.classList.add('moveUpDown');
+  moveUp.classList.add('moveUp');
   moveUp.innerText = "⇧";
   moveUp.style.backgroundColor = 'Green';
   moveUp.style.marginLeft = '6px';
   item.appendChild(moveUp);
 
   const moveDown = document.createElement(`a`);
-  moveDown.classList.add('moveUpDown');
+  moveDown.classList.add('moveDown');
   moveDown.innerText = "⇩";
   moveDown.style.backgroundColor = 'red';
   moveDown.style.marginLeft = '6px';
   item.appendChild(moveDown);
- 
 };
 
 function deleteArrows() {
-  const reorderOptionEl = Array.from(document.getElementsByClassName('moveUpDown'));
+  const reorderOptionEl = Array.from(document.querySelectorAll('a[class^="move"]'));
   reorderOptionEl.forEach(item => item.remove());
 };
+
+function moveLiUp(e) {
+  /** Check if <li> element is already at the top of list, if not then move up once */
+  const priorEl = e.target.parentNode.previousElementSibling;
+  const currentEl = e.target.parentNode;
+  priorEl ? priorEl.before(currentEl) : window.alert('To Do item is already at the top of the list!');
+  
+}
+
+function moveLiDown(e) {
+  /** Check if <li> element is already at the bottom of list, if not then move down once */
+  const nextEl = e.target.parentNode.nextElementSibling;
+  const currentEl = e.target.parentNode;
+  nextEl ? nextEl.after(currentEl) : window.alert('To Do item is already at the bottom of the list!');
+}

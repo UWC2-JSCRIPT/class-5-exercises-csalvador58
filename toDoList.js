@@ -38,10 +38,12 @@ const addListItem = function(e) {
   /** Created a new <li> element and used the innerHTML property to set the HTML default elements and text. The 'text' input is passed into the innerHTML using template literals. The querySelector is then used to find the <ul> with 'class = today-list' and append the new <li> as a child element.  */
   const newListItemEl = document.createElement('li');
   newListItemEl.innerHTML = `\n<span>${text}</span>\n<a class="delete">Delete</a>\n`;
+  document.querySelector('.today-list').appendChild(newListItemEl);
 
   /** Clear input form */
-  document.querySelector('.today-list').appendChild(newListItemEl);
   input.value = '';
+  reorderFeat.innerText == 'Done Reordering Items' ? toggleReorderFeat() : false;
+
 };
 
 /** Add event listener to <a.add-item> element to track for mouse clicks and run addListItem function. */
@@ -49,7 +51,7 @@ const addEl = document.querySelector('.add-item');
 addEl.addEventListener('click', addListItem);
 
 
-/** {EXTRA CREDIT} Reorder Feature */
+/** {EXTRA CREDIT} Reorder List Feature */
 const reorderFeat = document.createElement(`a`);
 // reorderFeat.classList.add('reorder-items');
 reorderFeat.innerText = 'Reorder Items';
@@ -60,36 +62,44 @@ addEl.after(reorderFeat);
 reorderFeat.addEventListener('click', toggleReorderFeat);
 
 function toggleReorderFeat() {
-  const allListItems = Array.from(document.querySelectorAll('li'));
+  const reorderStatus = reorderFeat.innerText;
+
+  if (reorderStatus == 'Reorder Items') {
+    const allListItems = Array.from(document.querySelectorAll('li'));
+    allListItems.forEach(item => {
+      if(!item.classList.contains('reorderEnabled')) {
+        createArrows(item);
+        item.classList.add('reorderEnabled');
+      }
+    })
+
+    reorderFeat.innerText = 'Done Reordering Items';
+
+  } else if (reorderStatus == 'Done Reordering Items') {
+    deleteArrows();
+
+    const allListItems = Array.from(document.querySelectorAll('li'));
+    allListItems.forEach(item => item.classList.remove('reorderEnabled'));
+
+    reorderFeat.innerText = 'Reorder Items';
+
+  }
+
   
-  allListItems.forEach(item => {
-    if(!item.classList.contains('reorderEnabled')) {
-      createArrows();
-      reorderFeat.innerText = 'Done Reordering Items';
-    } else {
-      
-      deleteArrows();
-      
-      reorderFeat.innerText = 'Reorder Items';
-    }
-    
-    item.classList.toggle('reorderEnabled');
-    
-  });
   
 };
 
-function createArrows() {
+function createArrows(item) {
   
   const moveUp = document.createElement(`a`);
-  moveUp.classList.add('reorderOption');
+  moveUp.classList.add('moveUpDown');
   moveUp.innerText = "⇧";
   moveUp.style.backgroundColor = 'Green';
   moveUp.style.marginLeft = '6px';
   item.appendChild(moveUp);
 
   const moveDown = document.createElement(`a`);
-  moveDown.classList.add('reorderOption');
+  moveDown.classList.add('moveUpDown');
   moveDown.innerText = "⇩";
   moveDown.style.backgroundColor = 'red';
   moveDown.style.marginLeft = '6px';
@@ -98,6 +108,6 @@ function createArrows() {
 };
 
 function deleteArrows() {
-  const reorderOptionEl = Array.from(document.getElementsByClassName('reorderOption'));
+  const reorderOptionEl = Array.from(document.getElementsByClassName('moveUpDown'));
   reorderOptionEl.forEach(item => item.remove());
 };

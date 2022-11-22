@@ -18,10 +18,10 @@ minusEl.appendChild(minusElText);
 body.appendChild(minusEl);
 
 
-// Initialize count variable
+// Initialized count variable
 let count = 0;
 
-// Created count element with text and append as a child to the <body>
+// Created an element to track the count with text and appended as a child to the <body>
 const countEl = document.createElement('h2');
 const countElText = document.createTextNode(`Count: ${count}`);
 countEl.appendChild(countElText);

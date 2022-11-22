@@ -5,11 +5,11 @@
 const aElement = document.createElement('a');
 aElement.setAttribute('id', 'cta');
 
-/** Used query selector to find last <p> element and insert the new <a> element after the location */
+/** Used query selector to find last <p> element and insert the new <a> element after the location using the after() method */
 const lastPElement = document.querySelector('p:last-of-type');
 lastPElement.after(aElement);
 
-/** Created the 'Buy Now!' text node and used appendChild to place in desired <a> element */
+/** Created the 'Buy Now!' text node and used appendChild to place in the desired <a> element */
 const aTextNode = document.createTextNode('Buy Now!');
 aElement.appendChild(aTextNode);
 

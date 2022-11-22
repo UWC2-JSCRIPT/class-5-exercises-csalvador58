@@ -11,10 +11,10 @@ function toDoListAction(e) {
 
 // If a delete link is clicked, delete the li element / remove from the DOM
 
-  /** Check if mouse clicked on delete link and used remove() on parentNode */
+  /** Check if mouse clicked on delete button and use remove() on parentNode */
   e.target.className == "delete" ? e.target.parentNode.remove() : false;
 
-  /** Check if Up or Down arrows are clicked (if present) */
+  /** Check if Up or Down arrows are clicked */
   e.target.className == "moveUp" ? moveLiUp(e) : e.target.className == "moveDown" ? moveLiDown(e) : false;
 
 };
